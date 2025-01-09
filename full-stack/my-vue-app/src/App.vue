@@ -1,5 +1,6 @@
 <script setup>
-import  { ref } from 'vue'
+import  { ref, watch } from 'vue'
+import Mybutton  from './components/Mybutton.vue'
 const todo = ref('')
 
 const list = ref([
@@ -32,14 +33,37 @@ function del(index){
   list.value.splice(index,1)
 }
 
+/* 监听器*/ 
+function sout (newValue,oldValue){
+  console.log(newValue + oldValue)
+}
+
+watch(todo,sout)
+
+
+
+/**
+ * 动态展示
+ * v-show
+ * v-if
+ */
+const bool = ref(true)
+
+
+/**接受子组件的信号 */
+function accept(str){
+  console.log(str)
+
+}
+
 </script>
 <template>
 <div class="top">
     <div class="text">
         <spann>hnsqls的Todo App</spann>
     </div>
-    <div class="todo-from">
-        <input v-model="todo" class = "todo-input" type="text" placeholder="add a todo" />
+    <div v-if="bool" class="todo-from">
+        <input  v-model="todo" class = "todo-input" type="text" placeholder="add a todo" />
         <div @click="add" class="todo-button">add todo</div>
    </div>
 
@@ -51,8 +75,15 @@ function del(index){
     <span @click="del(index)" class="del">del</span>
    </div>
 
-
+   <div class="div-tutton">
+    <button class="mybutton">点我</button>
+    <Mybutton  @ok="accept" text="你好"></Mybutton>
+   <Mybutton text="大家好"></Mybutton>
    </div>
+   
+   
+
+</div>
 </template>
 
 <style scoped>
@@ -135,5 +166,24 @@ function del(index){
         text-decoration: line-through;/*下划线*/
         opacity: 0.4;/*透明度*/
 
+    }
+
+
+    .mybutton{
+      width: 100px;
+      height: 50px;
+      border-radius: 15px;
+      margin-left: 15px;
+      margin-top: 15px;
+      background: linear-gradient(
+    to right,
+    rgb(113, 65, 168),
+    rgba(44, 114, 251, 1)
+  );
+    }
+
+
+    .div-tutton{
+      display: flex;
     }
 </style>
